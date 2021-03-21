@@ -6,11 +6,11 @@
 #include <limits>
 
 // Initialize public variables
-int trainsUpTime[] = {9, 11, 13, 15};
+int trainsUpTime[4] = {9, 11, 13, 15};
 int trainsUpTickets[4] = {480, 480, 480, 480};
 float trainsUpMoney[4] = {0.0, 0.0, 0.0, 0.0};
 
-int trainsDownTime[] = {10, 12, 14, 16};
+int trainsDownTime[4] = {10, 12, 14, 16};
 int trainsDownTickets[4] = {480, 480, 480, 640};
 float trainsDownMoney[4] = {0.0, 0.0, 0.0, 0.0};
 std::string line = "========================================================";
