@@ -1,13 +1,16 @@
+// may june 2021 pre-release material solution in C++
+
+// dependencies
 #include <iostream>
 #include <string>
 #include <limits>
 
 // Initialize public variables
-int trainsUpTime[4] = {9, 11, 13, 15};
+int trainsUpTime[] = {9, 11, 13, 15};
 int trainsUpTickets[4] = {480, 480, 480, 480};
 float trainsUpMoney[4] = {0.0, 0.0, 0.0, 0.0};
 
-int trainsDownTime[4] = {10, 12, 14, 16};
+int trainsDownTime[] = {10, 12, 14, 16};
 int trainsDownTickets[4] = {480, 480, 480, 640};
 float trainsDownMoney[4] = {0.0, 0.0, 0.0, 0.0};
 std::string line = "========================================================";
@@ -16,14 +19,14 @@ void task1();
 void task2();
 void task3();
 
-int main(){
+int main(){	
 	startMain:while (1) { // infinitely loop until prompted to break out
 		task1(); // run task1
 		task2(); // and then task2
 
-		// prompt user to run task3 or not
+		// ask user to run task3 or not
 		prompt:std::cout << "\nThank you for using us! Would you like to make another booking? press Y for yes or N for no.\n 	> ";
-		// below line ignores line breaks (pressing return key) from entering into input
+		// below line prevents line breaks (pressing return key) from entering into input
 		std::cin.clear();std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
 		char yn;
 		std::cin >> yn;
@@ -32,7 +35,7 @@ int main(){
 			task3();
 			break;
 		}
-		else { goto prompt; } // prompt until user gives an answer
+		else { goto prompt; } // loop until user gives an answer
 	}
 }
 
@@ -101,11 +104,6 @@ void task2(){
 			if (!std::cin.fail()) // if the user gives a valid time, then break out of loop and proceed
 			break;
 		}
-		for (int i = 0; i <= 4; i++) {
-			if (timeUp == trainsUpTime[i]) {  // when the selected train matches the one in the array, set indexDown to the array index
-				indexUp = i;
-			}
-		}
 
 		// the following is basically the same as the above one, except it prompts for when to go down
 		std::cout << "\nWhat time would you like to go down the mountain ?\n 	> "; // prompt user
@@ -136,11 +134,16 @@ void task2(){
 			if (!std::cin.fail())
 			break; // break out of loop if no errors were raised while getting input from user
 		}
+
 		for (int i = 0; i <= 4; i++) {
+			if (timeUp == trainsUpTime[i]) {
+				indexUp = i;
+			}
 			if (timeDown == trainsDownTime[i]) {
-				indexDown = i;
+				indexDown = i; 
 			}
 		}
+		
 
 		std::cout << "\nHow many tickets would you like to buy? Every 10th ticket is free!\n 	> ";
 		std::cin >> numTickets;
@@ -191,20 +194,23 @@ void task3() {
 	float totalMoneyTaken = 0.0;
 
 	// prints out train data for the day
-	std::cout <<"\n\n"<< line << "\nEnd of the day results:-\nTrip time 	Passengers served\n----------------------------------\n";
+	std::cout <<"\n\n"<< line << "\nEnd of the day results:-\nTrip time 	Direction	Passengers served\n------------------------------------------------------\n";
 	for (int i = 0; i < 4; i++) {
 		// calc the stuffs
 		passengersUp[i] = 480 - trainsUpTickets[i];
 		passengersDown[i] = 480 - trainsDownTickets[i];
 		passengersDown[3] = 640 - trainsDownTickets[3];
 
-		// print out the data tables values, add ":00" and a tabspace for more readabilty
-		std::cout << trainsUpTime[i] <<":00 		";
+		// print out the trains up time values, add ":00" and a tabspace for more readabilty
+		std::cout << trainsUpTime[i] <<":00 		Up 		";
 		if (passengersUp[i] == 0) { // replace 0 with NONE
 			std::cout << "NONE\n";
 		} else { std::cout << passengersUp[i] << std::endl; }
 
-		std::cout << trainsDownTime[i] <<":00 		";
+	} std::cout << "\n"; // a line break cause why not
+	for (int i = 0; i < 4; i++){
+		// same as above, except for trains down times
+		std::cout << trainsDownTime[i] <<":00 		Down 		";
 		if (passengersDown[i] == 0) { // replace 0 with NONE, for readabilty and it looks nicer anyways
 			std::cout << "NONE\n";
 		} else { std::cout << passengersDown[i] << std::endl; }
@@ -220,7 +226,7 @@ void task3() {
 
 	std::cout << "\nPress ENTER to exit console..."; // prompt user to exit
   	std::cin.get(); // this method reads any char from stdin
-  	std::cin.get(); // this is done twice cause because there would be characters buffered in stdin prevously
+  	std::cin.get(); // this is done twice cause there would be characters buffered in stdin prevously
 }
 
 // end of code :)
